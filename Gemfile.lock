@@ -110,6 +110,3 @@ DEPENDENCIES
   shoulda
   sqlite3
   unicorn
-
-BUNDLED WITH
-   1.11.2
