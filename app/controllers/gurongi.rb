@@ -1,5 +1,5 @@
 Gurongi::App.controllers :gurongi do
-  
+
   get :index do
     GURONGI_MAP = YAML.load_file(Padrino.root("/lib/mapping_table.yml"))
     FILTER_WORDS = YAML.load_file(Padrino.root("/lib/filter_words.yml"))
