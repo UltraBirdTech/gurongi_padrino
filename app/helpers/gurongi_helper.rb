@@ -3,7 +3,7 @@
 module Gurongi
   class App
     module GurongiHelper
-  
+
         ########################
         # 例外単語位置特定メソッド
         # 日本語の文字列の中に例外の単語(クウガ、ゲゲルなど)があった場合、
@@ -27,10 +27,10 @@ module Gurongi
         # 翻訳メソッド
         # 日本語の文字列を受け取り、グロンギ語で翻訳した文字列を返却する
         def translate_gurongi ext_p, jp
-          gurongi_array = []
+          @gurongi_array = []
           ext_i = 0
           jp.each_char.each_with_index do |c, i|
-            gurongi_array.push(translate_chars(c, jp, ext_p[:s][ext_i] , ext_p[:e][ext_i], i))
+            @gurongi_array.push(translate_chars(c, jp, ext_p[:s][ext_i] , ext_p[:e][ext_i], i))
             if ext_p[:e][ext_i + 1].present?
               ext_i = ext_i + 1 if ext_p[:e][ext_i] < i
             end
@@ -47,6 +47,8 @@ module Gurongi
             GURONGI_MAP[jp[i - 1]]
           when 'っ','ッ'
             GURONGI_MAP[jp[i + 1]]
+          when 'ゃ','ャ','ゅ','ュ','ょ','ョ'
+            p @gurongi_array
           else
             if sp.present? && ep.present?
               sp <= i && i <= ep ? c : c = GURONGI_MAP[c]
