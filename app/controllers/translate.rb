@@ -12,9 +12,10 @@ Gurongi::App.controllers :translate do
   end
 
   post :index do
-    str_jp = params['hash']['translate']
-    ext_poiints = search_exception_points(str_jp)
-    @gurongi = translate_gurongi(ext_poiints, str_jp).join
+    @str_jp = params['hash']['translate']
+    ext_poiints = search_exception_points(@str_jp)
+    result_array = translate_gurongi(ext_poiints, @str_jp).join
+    @gurongi = result_array
     render 'translate/index'
   end
 

@@ -86,9 +86,24 @@
             <% end %>
           </div>
           <div>
-            <h3><%= @gurongi %></h3>
+            <h3 id="gurongi_result"><%= @gurongi %></h3>
           </div>
         </section><!-- /.content -->
+        <div class="box-body">
+            <a href="https://twitter.com/intent/tweet"
+                      id="gurongi_tweet"
+                      class="btn btn-primary <% if @gurongi.blank? %> disabled <% end %>"
+                      data-size="large"
+                      target="_blank"
+                      <% if @gurongi.blank? %> disabled <% end %> >
+            <i class="fa fa-twitter"></i> <span>翻訳結果を Tweet しよう！</span></a>
+            <% if request.user_agent.match('Mobile').present? %>
+              <a href="http://line.me/R/msg/text/?" id="gurongi_line" class="<% if @gurongi.blank? %> disabled <% end %>">
+                <img src="linebutton/linebutton_82x20.png" alt="LINEで送る" />
+              </a>
+            <% end %>
+        </div>
+
         <section class="content">
            USAGE
            <lu>
@@ -98,6 +113,7 @@
              <li> 長音「ー」は前の文字を、「っ」は後の文字を重ねます</li>
            </lu>
         </section>
+        <input type="hidden" id="str_jpn" value="<%= @str_jp %>">
       </div><!-- /.content-wrapper -->
 
       <!-- Main Footer -->
@@ -122,5 +138,40 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/app.min.js"></script>
+
+    <script type="text/javascript" src="//media.line.me/js/line-button.js?v=20140411" ></script>
+    <script type="text/javascript">
+    new media_line_me.LineButton({"pc":false,"lang":"ja","type":"a","text":"","withUrl":true});
+    </script>
+
+    <script>
+      $(function(){
+
+        $('a.disabled').click(function(){
+          return false;
+        })
+
+        var url = window.location.href
+        var twitter_href = $('#gurongi_tweet').attr('href');
+        var line_href = $('#gurongi_line').attr('href');
+
+        var twitter_message = twitter_href + "/?text=" + make_text(twitter_href);
+        var line_message = line_href + make_text(line_href);
+
+        $("#gurongi_tweet").attr("href", twitter_message);
+        $("#gurongi_line").attr("href", line_message)
+
+        function make_text(href){
+            var gurongi_result = $('#gurongi_result').text();
+            var jpn_str = $('#str_jpn').attr('value');
+            var chapter = "    グロンギ語 翻訳アプリ(" + url + ") から投稿"
+            var text = gurongi_result
+                                   + "( 訳：" + jpn_str + ")"
+                                   + chapter ;
+            return text;
+        }
+      });
+
+    </script>
   </body>
 </html>
