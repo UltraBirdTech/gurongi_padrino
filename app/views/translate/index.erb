@@ -102,9 +102,6 @@
                 <img src="linebutton/linebutton_82x20.png" alt="LINEで送る" />
               </a>
             <% end %>
-            <span>
-
-            </span>
         </div>
 
         <section class="content">
@@ -149,9 +146,11 @@
 
     <script>
       $(function(){
+
         $('a.disabled').click(function(){
           return false;
         })
+
         var url = window.location.href
         var twitter_href = $('#gurongi_tweet').attr('href');
         var line_href = $('#gurongi_line').attr('href');
@@ -161,7 +160,6 @@
 
         $("#gurongi_tweet").attr("href", twitter_message);
         $("#gurongi_line").attr("href", line_message)
-
 
         function make_text(href){
             var gurongi_result = $('#gurongi_result').text();
