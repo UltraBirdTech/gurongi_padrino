@@ -6,7 +6,6 @@ Gurongi::App.controllers :extra_word do
   end
 
   get :index do
-
     render 'extra_word/index'
   end
 end
