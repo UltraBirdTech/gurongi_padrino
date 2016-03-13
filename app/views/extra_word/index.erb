@@ -74,49 +74,25 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            グロンギ翻訳アプリ
+            例外単語一覧
           </h1>
         </section>
 
         <!-- Main content -->
         <section class="content">
-          <div class="input-group　col-mod-12">
-            <% form_for @translate, :url => {:action => 'translate'} do |f| %>
-              <%= f.text_field :translate, :id => 'translate', :size=>'50', :placeholder => 'ここにはリントの言葉をいれよ' %>
-              <button type="submit" class="btn btn-primary">翻訳！！</button>
-            <% end %>
+          <div class="input-group">
+            <table class="table table-striped" bgcolor="black">
+              <tbody>
+                <tr bgcolor="white"><th>例外単語一覧</th></tr>
+                <% FILTER_WORDS.each do |f| %>
+                 <tr bgcolor="white"><td><%= f %></td></tr>
+                <% end %>
+              </tbody>
+            </table>
           </div>
-          <div>
-            <h3 id="gurongi_result"><%= @gurongi %></h3>
-          </div>
+
         </section><!-- /.content -->
-        <div class="box-body">
-            <a href="https://twitter.com/intent/tweet"
-                      id="gurongi_tweet"
-                      class="btn btn-primary <% if @gurongi.blank? %> disabled <% end %>"
-                      data-size="large"
-                      target="_blank"
-                      <% if @gurongi.blank? %> disabled <% end %> >
-            <i class="fa fa-twitter"></i> <span>翻訳結果を Tweet しよう！</span></a>
-            <% if request.user_agent.match('Mobile').present? %>
-              <a href="http://line.me/R/msg/text/?" id="gurongi_line" class="<% if @gurongi.blank? %> disabled <% end %>">
-                <img src="linebutton/linebutton_82x20.png" alt="LINEで送る" />
-              </a>
-            <% end %>
-        </div>
-
-        <section class="content">
-           USAGE
-           <lu>
-             <li> 日本語を入力して「翻訳」ボタンをクリック</li>
-             <li> 換字式暗号によって日本語をグロンギ語を翻訳します</li>
-             <li> 特定の単語（クウガ、ゲゲル、ダグバ）などは翻訳しません</li>
-             <li> 長音「ー」は前の文字を、「っ」は後の文字を重ねます</li>
-           </lu>
-        </section>
-        <input type="hidden" id="str_jpn" value="<%= @str_jp %>">
-      </div><!-- /.content-wrapper -->
-
+      </div>
       <!-- Main Footer -->
       <footer class="main-footer">
         <!-- To the right -->
@@ -139,40 +115,5 @@
     <script src="bootstrap/js/bootstrap.min.js"></script>
     <!-- AdminLTE App -->
     <script src="dist/js/app.min.js"></script>
-
-    <script type="text/javascript" src="//media.line.me/js/line-button.js?v=20140411" ></script>
-    <script type="text/javascript">
-    new media_line_me.LineButton({"pc":false,"lang":"ja","type":"a","text":"","withUrl":true});
-    </script>
-
-    <script>
-      $(function(){
-
-        $('a.disabled').click(function(){
-          return false;
-        })
-
-        var url = window.location.href
-        var twitter_href = $('#gurongi_tweet').attr('href');
-        var line_href = $('#gurongi_line').attr('href');
-
-        var twitter_message = twitter_href + "/?text=" + make_text(twitter_href);
-        var line_message = line_href + make_text(line_href);
-
-        $("#gurongi_tweet").attr("href", twitter_message);
-        $("#gurongi_line").attr("href", line_message)
-
-        function make_text(href){
-            var gurongi_result = $('#gurongi_result').text();
-            var jpn_str = $('#str_jpn').attr('value');
-            var chapter = "    グロンギ語 翻訳アプリ(" + url + ") から投稿"
-            var text = gurongi_result
-                                   + "( 訳：" + jpn_str + ")"
-                                   + chapter ;
-            return text;
-        }
-      });
-
-    </script>
   </body>
 </html>
