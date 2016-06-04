@@ -75,7 +75,7 @@
         <!-- Content Header (Page header) -->
         <section class="content-header">
           <h1>
-            例外単語一覧
+            五十音対応表
           </h1>
         </section>
 
@@ -84,9 +84,9 @@
           <div class="input-group">
             <table class="table table-striped" bgcolor="black">
               <tbody>
-                <tr bgcolor="white"><th>例外単語一覧</th></tr>
-                <% FILTER_WORDS.each do |f| %>
-                 <tr bgcolor="white"><td><%= f %></td></tr>
+                <tr bgcolor="white"><th>日本語</th><th>グロンギ語</th></tr>
+                <% GURONGI_MAP.each do |k, v| %>
+                 <tr bgcolor="white"><td><%= k %></td><td><%= v %></td></tr>
                 <% end %>
               </tbody>
             </table>
