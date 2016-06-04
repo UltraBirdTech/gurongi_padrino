@@ -2,6 +2,7 @@
 log/**/*
 tmp/**/*
 vender/*
+vendor/*
 vendor/gems/*
 !vendor/gems/cache/
 .sass-cache/*
