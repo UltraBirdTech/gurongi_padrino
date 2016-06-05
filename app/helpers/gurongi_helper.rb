@@ -31,6 +31,7 @@ module Gurongi
         ext_i = 0
         jp.each_char.each_with_index do |c, i|
           gurongi_array.push(translate_chars(c, jp, ext_p[:s][ext_i] , ext_p[:e][ext_i], i))
+          translate_num(c, jp, i)
           if ext_p[:e][ext_i + 1].present?
             ext_i = ext_i + 1 if ext_p[:e][ext_i] < i
           end
@@ -48,6 +49,10 @@ module Gurongi
         when 'っ','ッ'
           GURONGI_MAP[jp[i + 1]]
         else
+          # 数字に変換可能な値の場合数値に変換する
+          p GURONGI_MAP[c.to_i]
+          translate_num(c ,jp ,i) if c.to_i != 0
+
           unless jp[i + 1].nil?
             if jp[i + 1].scan(/ゃ|ャ|ゅ|ュ|ょ|ョ|ぁ|ァ|ぃ|ィ|ぇ|ェ|ぉ|ォ/).present?
               return GURONGI_MAP[c + jp[i + 1]]
@@ -60,6 +65,20 @@ module Gurongi
           end
         end
       end
+
+      ########################
+      # 数値変換メソッド
+      # 日本語の配列から数字を抜き出し９進数に変換する
+      def translate_num c, jp, i
+        return GURONGI_MAP[c.to_i]
+        p c
+        p jp
+        p i
+        p '-----------------------'
+        p jp.gsub(/[^0-9]/,"")
+        p '-----------------------'
+      end
+
     end
     helpers GurongiHelper
   end
