@@ -30,6 +30,10 @@ gem 'rack-test', :require => 'rack/test', :group => 'test'
 # Padrino Stable Gem
 gem 'padrino', '0.13.0'
 
+# RSpec
+gem "rspec", "~> 2.14.1"
+gem "simplecov", "~> 0.8.0"
+
 # Or Padrino Edge
 # gem 'padrino', :github => 'padrino/padrino-framework'
 
