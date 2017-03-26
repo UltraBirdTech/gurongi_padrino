@@ -7,7 +7,8 @@ module GurongiTranslate
   def translate_ja_to_gr (ja_str)
 
     # TODO: ja_strに*がある場合は弾く    
-    # TODO: ja_str上がいているため変数変更する
+    # TODO: ja_strを上書いているため変数名を変更する
+    # TODO: to_kanaでja_strは全てカタカナ表記にしてしまう。
     ja_str, extra_word_array = exclution_words(ja_str)
 
     gr_str = ''
@@ -16,10 +17,11 @@ module GurongiTranslate
       ja_str.each_char.with_index do |c, i|
         case c
         when '*'
-          # 何も処理せず、*を追加する
+          # *を追加する
           gr_str << '*'
         when 'ゃ', 'ャ', 'ゅ', 'ュ', 'ょ', 'ョ', 'ぁ', 'ァ', 'ぃ', 'ィ', 'ぇ', 'ェ', 'ぉ', 'ォ' 
-          # 再変換する
+          # 一文字前の文字を含めて再変換する
+          # 「しゃ」の場合は、「ゃ」で検知して一文字前で翻訳済みの「し」を含めて「しゃ」として翻訳し直す
           gr_str[-1] = (ja_str[i - 1] + c).to_gr!
         when 'ー'
           # 前の文字を重ねる

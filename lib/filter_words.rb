@@ -1,5 +1,5 @@
 module PadrinoApp
-  # yamlファイルからマッピングデータを読み込む
+  # yamlファイルから例外単語を読み込む
   class FilterWords 
     FILTER_WORDS = YAML.load_file(Padrino.root("/lib/filter_words.yml"))
     
