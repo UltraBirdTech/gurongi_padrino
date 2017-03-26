@@ -1,0 +1,71 @@
+module GurongiTranslate
+  ###########################
+  # 翻訳メソッド
+  # 日本語の文字列を受け取り、グロンギ語の文字列を返却する
+  # 引数: ja_str (日本語の文字列)
+  # 返値: gr_str (グロンギ語の文字列)
+  def translate_ja_to_gr (ja_str)
+
+    # TODO: ja_strに*がある場合は弾く    
+    # TODO: ja_str上がいているため変数変更する
+    ja_str, extra_word_array = exclution_words(ja_str)
+
+    gr_str = ''
+
+    begin
+      ja_str.each_char.with_index do |c, i|
+        case c
+        when '*'
+          # 何も処理せず、*を追加する
+          gr_str << '*'
+        when 'ゃ', 'ャ', 'ゅ', 'ュ', 'ょ', 'ョ', 'ぁ', 'ァ', 'ぃ', 'ィ', 'ぇ', 'ェ', 'ぉ', 'ォ' 
+          # 再変換する
+          gr_str[-1] = (ja_str[i - 1] + c).to_gr!
+        when 'ー'
+          # 前の文字を重ねる
+          gr_str << gr_str[-1]
+        when 'っ', 'ッ'
+          # 後の文字を重ねる
+          gr_str << ja_str[i + 1].to_gr!
+        else
+          gr_str << c.to_gr!
+        end
+      end
+    rescue => e
+      p "Failer: Can't change ja to gr. error string is #{ja_str}." 
+      return 'ここではリントの言葉を話せ'
+    end
+
+    # TODO: extra_word_arrayが存在する場合のみ実行するようにする
+    reverse_exclution_words(gr_str, extra_word_array)
+  end
+
+# TODO:privateメソッドに置き換える
+#  private
+
+  ##########################
+  # 除外単語変換メソッド
+  # FILTER_WORDSに存在する単語を一時的に'*'に置き換える。
+  # 除外する単語の配列を保持する
+  def exclution_words(ja_str)
+    extra_word_array = []
+    PadrinoApp::FilterWords::FILTER_WORDS.each do |extra_word|
+      if ja_str.include?(extra_word)
+        extra_word_array << extra_word
+        ja_str.sub!(extra_word, '*')
+      end
+    end
+
+    [ja_str, extra_word_array]
+  end
+
+  ##########################
+  # 除外単語を復元するメソッド
+  # excluetion_wordsで一時的に置き換えた文字を復元する。
+  def reverse_exclution_words(gr_str, extra_word_hash)
+    extra_word_hash.each do |value|
+      gr_str.sub!('*', value)
+    end
+    gr_str
+  end
+end
