@@ -38,6 +38,8 @@ Bundler.require(:default, RACK_ENV)
 # Add your before (RE)load hooks here
 #
 Padrino.before_load do
+  require "#{PADRINO_ROOT}/lib/gurongi_mapping.rb"
+  require "#{PADRINO_ROOT}/lib/filter_words.rb"
 end
 
 ##

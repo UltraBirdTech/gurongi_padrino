@@ -16,7 +16,7 @@ source 'https://rubygems.org'
 # Project requirements
 gem 'rake'
 gem "unicorn"
-
+gem 'rspec'
 # Component requirements
 gem 'sass'
 gem 'haml'
