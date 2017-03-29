@@ -3,7 +3,16 @@ RSpec.configure do |config|
   # testに必要なものをrequireする。
   require 'yaml'
   require 'padrino'
-  
+  require 'simplecov'
+  require 'webrick'
+
+  SimpleCov.start do
+    add_filter '/vender'
+    add_filter '/spec'
+    add_filter '/lib/connection_pool_management_middleware.rb'
+    add_filter '/lib/sass_initializer.rb'
+  end
+
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end

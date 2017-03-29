@@ -1,6 +1,7 @@
 .DS_Store
 log/**/*
 tmp/**/*
+coverage/*
 vender/*
 vendor/*
 vendor/gems/*
