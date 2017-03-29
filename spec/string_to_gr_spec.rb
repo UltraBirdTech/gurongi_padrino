@@ -1,5 +1,3 @@
-require_relative '../lib/string_to_gr'
-
 RSpec.describe String do
   describe 'to_gr' do  
     context '正常系' do
