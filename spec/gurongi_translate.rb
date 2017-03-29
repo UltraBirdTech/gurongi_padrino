@@ -11,6 +11,7 @@ RSpec.describe String do
       it '「ガギグゲゴ」が返却されること' do
         expect(gurongi.translate_ja_to_gr('あいうえお')).to eq 'ガギグゲゴ'
       end
+      
       it '小字を変換できること' do
         expect(gurongi.translate_ja_to_gr('ちゃ')).to eq 'ジャ'
       end
@@ -18,15 +19,26 @@ RSpec.describe String do
       it '「ー」は前の文字が重ねられること' do
         expect(gurongi.translate_ja_to_gr('ライダー')).to eq 'サギザザ'
       end
+
       it '「っ」は後の文字が重ねられること' do
         expect(gurongi.translate_ja_to_gr('キック')).to eq 'ビブブ'
       end
+      
       it '例外単語は例外処理されて文字列が返却されること' do
         expect(gurongi.translate_ja_to_gr('カメンライダークウガ')).to eq 'バレンサギザザクウガ'
       end
     end
 
     context '異常系' do
+      it '「*」のみの場合' do
+        expect(gurongi.translate_ja_to_gr('*')).to eq 'ここではリントの言葉を話せ'
+      end
+
+      it '「*」が文字列に含まれている場合' do
+        expect(gurongi.translate_ja_to_gr('ほげ*もげ')).to eq 'ここではリントの言葉を話せ'
+      end
+
+
       it '「っ」のみの場合' do
         expect(gurongi.translate_ja_to_gr('っ')).to eq 'ここではリントの言葉を話せ'
       end
