@@ -6,7 +6,11 @@ module GurongiTranslate
   # 返値: gr_str (グロンギ語の文字列)
   def translate_ja_to_gr (ja_str)
 
-    # TODO: ja_strに*がある場合は弾く    
+    # '*'は特別な意味を持つためreturnする
+    if ja_str.match('\*')
+      return 'ここではリントの言葉を話せ'
+    end
+    
     # TODO: ja_strを上書いているため変数名を変更する
     # TODO: to_kanaでja_strは全てカタカナ表記にしてしまう。
     ja_str, extra_word_array = exclution_words(ja_str)
