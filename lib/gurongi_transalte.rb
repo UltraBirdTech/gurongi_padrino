@@ -11,14 +11,13 @@ module GurongiTranslate
       return 'ここではリントの言葉を話せ'
     end
     
-    # TODO: ja_strを上書いているため変数名を変更する
     # TODO: to_kanaでja_strは全てカタカナ表記にしてしまう。
-    ja_str, extra_word_array = exclution_words(ja_str)
+    ja_str_extra_word, extra_word_array = exclution_words(ja_str)
 
     gr_str = ''
 
     begin
-      ja_str.each_char.with_index do |c, i|
+      ja_str_extra_word.each_char.with_index do |c, i|
         case c
         when '*'
           # *を追加する
@@ -26,13 +25,13 @@ module GurongiTranslate
         when 'ゃ', 'ャ', 'ゅ', 'ュ', 'ょ', 'ョ', 'ぁ', 'ァ', 'ぃ', 'ィ', 'ぇ', 'ェ', 'ぉ', 'ォ' 
           # 一文字前の文字を含めて再変換する
           # 「しゃ」の場合は、「ゃ」で検知して一文字前で翻訳済みの「し」を含めて「しゃ」として翻訳し直す
-          gr_str[-1] = (ja_str[i - 1] + c).to_gr!
+          gr_str[-1] = (ja_str_extra_word[i - 1] + c).to_gr!
         when 'ー'
           # 前の文字を重ねる
           gr_str << gr_str[-1]
         when 'っ', 'ッ'
           # 後の文字を重ねる
-          gr_str << ja_str[i + 1].to_gr!
+          gr_str << ja_str_extra_word[i + 1].to_gr!
         else
           gr_str << c.to_gr!
         end
@@ -42,8 +41,11 @@ module GurongiTranslate
       return 'ここではリントの言葉を話せ'
     end
 
-    # TODO: extra_word_arrayが存在する場合のみ実行するようにする
-    reverse_exclution_words(gr_str, extra_word_array)
+    if extra_word_array
+      gr_str = reverse_exclution_words(gr_str, extra_word_array)
+    end
+
+    gr_str
   end
 
 # TODO:privateメソッドに置き換える
