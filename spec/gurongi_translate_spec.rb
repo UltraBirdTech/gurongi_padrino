@@ -56,10 +56,10 @@ RSpec.describe String do
     let(:gurongi) { TestClass.new }
     context '正常系' do
       it '除外文字が*に変換され、除外単語の情報が配列形式で変換されること' do
-        expect(gurongi.exclution_words('クウガ')).to eq ['*', ['クウガ']]
+        expect(gurongi.send(:exclution_words, 'クウガ')).to eq ['*', ['クウガ']]
       end
       it '除外文字が*に変換され、除外単語の情報が配列形式で変換されること' do
-        expect(gurongi.exclution_words('クウガとダグバ')).to eq ['*と*', ['クウガ', 'ダグバ']]
+        expect(gurongi.send(:exclution_words, 'クウガとダグバ')).to eq ['*と*', ['クウガ', 'ダグバ']]
       end
     end
   end
@@ -68,10 +68,10 @@ RSpec.describe String do
     let(:gurongi) { TestClass.new }
     context '正常系' do
       it '配列の情報から除外単語が復元されていること' do
-        expect(gurongi.reverse_exclution_words('*', ['クウガ'])).to eq 'クウガ'
+        expect(gurongi.send(:reverse_exclution_words, '*', ['クウガ'])).to eq 'クウガ'
       end
       it '二つ以上の単語が復元されること' do
-        expect(gurongi.reverse_exclution_words('*ド*', ['クウガ','ダグバ'])).to eq 'クウガドダグバ'
+        expect(gurongi.send(:reverse_exclution_words, '*ド*', ['クウガ','ダグバ'])).to eq 'クウガドダグバ'
       end
     end
   end
