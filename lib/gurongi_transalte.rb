@@ -34,19 +34,19 @@ module GurongiTranslate
   def translate_ja_str(ja_str_extra_word)
     gr_str = ''
     ja_str_extra_word.each_char.with_index do |c, i|
-        case c
-        when '*'
-         gr_str << '*' # *を追加する
-        when 'ゃ', 'ャ', 'ゅ', 'ュ', 'ょ', 'ョ', 'ぁ', 'ァ', 'ぃ', 'ィ', 'ぇ', 'ェ', 'ぉ', 'ォ'
-          gr_str[-1] = translate_small_chars(ja_str_extra_word, i ,c)
-        when 'ー'
-          gr_str << gr_str[-1] # 前の文字を重ねる
-        when 'っ', 'ッ'
-          gr_str << ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
-        else
-          gr_str << c.to_gr!
-        end
+      case c
+      when '*'
+       gr_str << '*' # *を追加する
+      when 'ゃ', 'ャ', 'ゅ', 'ュ', 'ょ', 'ョ', 'ぁ', 'ァ', 'ぃ', 'ィ', 'ぇ', 'ェ', 'ぉ', 'ォ'
+        gr_str[-1] = translate_small_chars(ja_str_extra_word, i ,c)
+      when 'ー'
+        gr_str << gr_str[-1] # 前の文字を重ねる
+      when 'っ', 'ッ'
+        gr_str << ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
+      else
+        gr_str << c.to_gr!
       end
+    end
     gr_str
   end
 
