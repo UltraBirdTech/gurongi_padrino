@@ -5,7 +5,6 @@ module GurongiTranslate
   # 引数: ja_str (日本語の文字列)
   # 返値: gr_str (グロンギ語の文字列)
   def translate_ja_to_gr (ja_str)
-
     # '*'は特別な意味を持つためreturnする
     if ja_str.match('\*')
       return 'ここではリントの言葉を話せ'
@@ -15,27 +14,8 @@ module GurongiTranslate
     ja_str_extra_word, extra_word_array = exclution_words(ja_str)
 
     gr_str = ''
-
     begin
-      ja_str_extra_word.each_char.with_index do |c, i|
-        case c
-        when '*'
-          # *を追加する
-          gr_str << '*'
-        when 'ゃ', 'ャ', 'ゅ', 'ュ', 'ょ', 'ョ', 'ぁ', 'ァ', 'ぃ', 'ィ', 'ぇ', 'ェ', 'ぉ', 'ォ' 
-          # 一文字前の文字を含めて再変換する
-          # 「しゃ」の場合は、「ゃ」で検知して一文字前で翻訳済みの「し」を含めて「しゃ」として翻訳し直す
-          gr_str[-1] = (ja_str_extra_word[i - 1] + c).to_gr!
-        when 'ー'
-          # 前の文字を重ねる
-          gr_str << gr_str[-1]
-        when 'っ', 'ッ'
-          # 後の文字を重ねる
-          gr_str << ja_str_extra_word[i + 1].to_gr!
-        else
-          gr_str << c.to_gr!
-        end
-      end
+      gr_str = translate_ja_str(ja_str_extra_word)
     rescue => e
       p "Failer: Can't change ja to gr. error string is #{ja_str}." 
       return 'ここではリントの言葉を話せ'
@@ -49,6 +29,38 @@ module GurongiTranslate
   end
 
   private
+  ##########################
+  # 日本語文字列をグロンギ語文字列に変換するメソッド
+  def translate_ja_str(ja_str_extra_word)
+    gr_str = ''
+    ja_str_extra_word.each_char.with_index do |c, i|
+        case c
+        when '*'
+         gr_str << '*' # *を追加する
+        when 'ゃ', 'ャ', 'ゅ', 'ュ', 'ょ', 'ョ', 'ぁ', 'ァ', 'ぃ', 'ィ', 'ぇ', 'ェ', 'ぉ', 'ォ'
+          gr_str[-1] = translate_small_chars(ja_str_extra_word, i ,c)
+        when 'ー'
+          gr_str << gr_str[-1] # 前の文字を重ねる
+        when 'っ', 'ッ'
+          gr_str << ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
+        else
+          gr_str << c.to_gr!
+        end
+      end
+    gr_str
+  end
+
+  ##########################
+  # 小文字の変換を行うメソッド
+  # 一文字前の文字を含めて再変換する
+  # 「しゃ」の場合は、「ゃ」で検知して一文字前で翻訳済みの「し」を含めて「しゃ」として翻訳し直す
+  # ja_str_extra_word: 除外単語を*に変換した後の日本語文字列
+  # i: 文字列のindex
+  # c: 変換対象の文字
+  def translate_small_chars(ja_str_extra_word, i, c)
+    (ja_str_extra_word[i - 1] + c).to_gr!
+  end
+
   ##########################
   # 除外単語変換メソッド
   # FILTER_WORDSに存在する単語を一時的に'*'に置き換える。
