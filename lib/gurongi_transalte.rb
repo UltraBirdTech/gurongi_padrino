@@ -48,9 +48,7 @@ module GurongiTranslate
     gr_str
   end
 
-# TODO:privateメソッドに置き換える
-#  private
-
+  private
   ##########################
   # 除外単語変換メソッド
   # FILTER_WORDSに存在する単語を一時的に'*'に置き換える。
