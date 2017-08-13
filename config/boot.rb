@@ -9,12 +9,12 @@ Bundler.require(:default, RACK_ENV)
 ##
 # ## Enable devel logging
 #
-# Padrino::Logger::Config[:development][:log_level]  = :devel
-# Padrino::Logger::Config[:development][:log_static] = true
+Padrino::Logger::Config[:development][:log_level]  = :devel
+Padrino::Logger::Config[:development][:log_static] = true
 #
-# ## Enable logging of source location
+## Enable logging of source location
 #
-# Padrino::Logger::Config[:development][:source_location] = true
+#Padrino::Logger::Config[:development][:source_location] = true
 #
 # ## Configure your I18n
 #
