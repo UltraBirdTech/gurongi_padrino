@@ -12,6 +12,8 @@ RSpec.configure do |config|
     add_filter '/lib/connection_pool_management_middleware.rb'
     add_filter '/lib/sass_initializer.rb'
   end
+  
+  config.expose_dsl_globally = true
 
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
@@ -25,7 +27,7 @@ RSpec.configure do |config|
 
   config.filter_run_when_matching :focus
 
-  config.disable_monkey_patching!
+#  config.disable_monkey_patching!
 
   config.warnings = true
 

@@ -16,7 +16,7 @@ module GurongiTranslate
     gr_str = ''
     begin
       gr_str = translate_ja_str(ja_str_extra_word)
-    rescue => e
+    rescue
       p "Failer: Can't change ja to gr. error string is #{ja_str}." 
       return 'ここではリントの言葉を話せ'
     end
