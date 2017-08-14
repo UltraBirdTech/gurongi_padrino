@@ -5,6 +5,7 @@ module GurongiTranslate
   # 引数: ja_str (日本語の文字列)
   # 返値: gr_str (グロンギ語の文字列)
   def translate_ja_to_gr (ja_str)
+    logger.debug "[LOG]: start translate #{ja_str}"
     # '*'は特別な意味を持つためreturnする
     if ja_str.match('\*')
       return 'ここではリントの言葉を話せ'
@@ -16,8 +17,8 @@ module GurongiTranslate
     gr_str = ''
     begin
       gr_str = translate_ja_str(ja_str_extra_word)
-    rescue
-      p "Failer: Can't change ja to gr. error string is #{ja_str}." 
+    rescue => e
+      logger.debug "[WARNING]: Can't change ja to gr. Error string is #{ja_str}." 
       return 'ここではリントの言葉を話せ'
     end
 
@@ -25,6 +26,7 @@ module GurongiTranslate
       gr_str = reverse_exclution_words(gr_str, extra_word_array)
     end
 
+    logger.debug "[LOG]: end translate #{gr_str}"
     gr_str
   end
 
