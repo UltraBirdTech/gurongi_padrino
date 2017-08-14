@@ -1,4 +1,5 @@
 RSpec.describe String do
+
   class TestClass
     include GurongiTranslate
   end
