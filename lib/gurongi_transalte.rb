@@ -8,6 +8,7 @@ module GurongiTranslate
     logger.debug "[LOG]: start translate #{ja_str}"
     # '*'は特別な意味を持つためreturnする
     if ja_str.match('\*')
+      logger.warn "[LOG]: include '*' in ja string."
       return 'ここではリントの言葉を話せ'
     end
     
