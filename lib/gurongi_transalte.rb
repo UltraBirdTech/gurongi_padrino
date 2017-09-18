@@ -6,6 +6,7 @@ module GurongiTranslate
   # 返値: gr_str (グロンギ語の文字列)
   def translate_ja_to_gr (ja_str)
     logger.debug "[LOG]: start translate #{ja_str}"
+    
     # '*'は特別な意味を持つためreturnする
     if ja_str.match('\*')
       return 'ここではリントの言葉を話せ'
@@ -38,11 +39,11 @@ module GurongiTranslate
       case c
       when '*'
        gr_str << '*' # *を追加する
-      when 'ゃ', 'ャ', 'ゅ', 'ュ', 'ょ', 'ョ', 'ぁ', 'ァ', 'ぃ', 'ィ', 'ぇ', 'ェ', 'ぉ', 'ォ'
+      when 'ャ', 'ュ', 'ョ', 'ァ', 'ィ', 'ェ', 'ォ'
         gr_str[-1] = translate_small_chars(ja_str_extra_word, i ,c)
       when 'ー'
         gr_str << gr_str[-1] # 前の文字を重ねる
-      when 'っ', 'ッ'
+      when 'ッ'
         gr_str << ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
       else
         gr_str << c.to_gr!
