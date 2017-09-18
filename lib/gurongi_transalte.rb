@@ -11,8 +11,7 @@ module GurongiTranslate
       return 'ここではリントの言葉を話せ'
     end
     
-    # TODO: to_kanaでja_strは全てカタカナ表記にしてしまう。
-    ja_str_extra_word, extra_word_array = exclution_words(ja_str)
+    ja_str_extra_word, extra_word_array = exclution_words(ja_str.to_kana())
 
     gr_str = ''
     begin
