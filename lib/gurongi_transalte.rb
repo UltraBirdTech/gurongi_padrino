@@ -1,3 +1,4 @@
+# rubocop:disable all 
 module GurongiTranslate
   ###########################
   # 翻訳メソッド
