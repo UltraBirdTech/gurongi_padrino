@@ -1,3 +1,4 @@
+# rubocop:disable all
 Gurongi::App.controllers :gurongi do
   include Gurongi
   

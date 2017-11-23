@@ -1,3 +1,4 @@
+# rubocop:disable all
 Gurongi::App.controllers :translate do
   include GurongiTranslate
   before do
