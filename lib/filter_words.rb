@@ -1,3 +1,4 @@
+# rubocop:disable all
 module PadrinoApp
   # yamlファイルから例外単語を読み込む
   class FilterWords 

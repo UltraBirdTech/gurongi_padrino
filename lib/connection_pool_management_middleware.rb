@@ -1,3 +1,4 @@
+# disable:rubocop
 class ConnectionPoolManagement
   def initialize(app)
     @app = app

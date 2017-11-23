@@ -4,10 +4,15 @@ inherit_from: .rubocop_todo.yml
 
 AllCops:
   Exclude:
-    - 'vendor/**/*'
+    - 'bin/*'
+    - 'config/*'
     - 'spec/**/*'
     - 'tmp/**/*'
-
+    - 'test/*'
+    - 'test/**/*'
+    - 'vendor/**/*'
+    - 'Gemfile'
+    - 'config.ru'
 
 # Use only ascii symbols in comments.
 AsciiComments:

@@ -1,3 +1,4 @@
+# rubocop:disable all
 Gurongi::App.controllers :extra_word do
   before do
     GURONGI_MAP = YAML.load_file(Padrino.root("/lib/mapping_table.yml"))

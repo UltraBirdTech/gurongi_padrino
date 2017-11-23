@@ -1,3 +1,4 @@
+# rubocop:disable all
 module Gurongi
   class App < Padrino::Application
     register SassInitializer
