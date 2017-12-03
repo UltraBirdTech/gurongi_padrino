@@ -12,8 +12,8 @@ module GurongiTranslate
     gr_str = ''
     begin
       gr_str = translate!(ja_str)
-    rescue StandardError
-      logger.debug "[WARNING]: Can't translate ja to gr. #{ja_str}."
+    rescue StandardError => e
+      logger.debug "[WARNING]: #{e}.Can't translate ja to gr. #{ja_str}."
       return 'ここではリントの言葉を話せ'
     end
 
@@ -25,7 +25,7 @@ module GurongiTranslate
 
   ###########################
   # translate()
-  def translate!
+  def translate!(ja_str)
     check_special_chars(ja_str)
     ja_str_extra_word, extra_word_array = exclution_words(ja_str.to_kana)
     gr_str = translate_ja_str(ja_str_extra_word)
