@@ -1,31 +1,20 @@
 # rubocop:disable all 
 module GurongiTranslate
+  # rubocop:enable all
   ###########################
   # 翻訳メソッド
   # 日本語の文字列を受け取り、グロンギ語の文字列を返却する
   # 引数: ja_str (日本語の文字列)
   # 返値: gr_str (グロンギ語の文字列)
-  def translate_ja_to_gr (ja_str)
+  def translate_ja_to_gr(ja_str)
     logger.debug "[LOG]: start translate #{ja_str}"
-    
-    # '*'は特別な意味を持つためreturnする
-    if ja_str.match('\*')
-      logger.warn "[LOG]: include '*' in ja string."
-      return 'ここではリントの言葉を話せ'
-    end
-    
-    ja_str_extra_word, extra_word_array = exclution_words(ja_str.to_kana())
 
     gr_str = ''
     begin
-      gr_str = translate_ja_str(ja_str_extra_word)
-    rescue => e
-      logger.debug "[WARNING]: Can't change ja to gr. Error string is #{ja_str}." 
+      gr_str = translate!(ja_str)
+    rescue StandardError
+      logger.debug "[WARNING]: Can't translate ja to gr. #{ja_str}."
       return 'ここではリントの言葉を話せ'
-    end
-
-    if extra_word_array
-      gr_str = reverse_exclution_words(gr_str, extra_word_array)
     end
 
     logger.debug "[LOG]: end translate #{gr_str}"
@@ -33,6 +22,27 @@ module GurongiTranslate
   end
 
   private
+
+  ###########################
+  # translate()
+  def translate!
+    check_special_chars(ja_str)
+    ja_str_extra_word, extra_word_array = exclution_words(ja_str.to_kana)
+    gr_str = translate_ja_str(ja_str_extra_word)
+    reverse_exclution_words(gr_str, extra_word_array)
+  end
+
+  # rubocop:disable all
+
+  # 特別な意味を持つ文字(*)がないかを確認する
+  # TODO: * がある場合はエラーとする
+  def check_special_chars(ja_str)
+    if ja_str =~ /\*/
+      logger.warn "[LOG]: include '*' in ja string."
+      return 'ここではリントの言葉を話せ'
+    end
+  end
+
   ##########################
   # 日本語文字列をグロンギ語文字列に変換するメソッド
   def translate_ja_str(ja_str_extra_word)
@@ -85,6 +95,7 @@ module GurongiTranslate
   # 除外単語を復元するメソッド
   # excluetion_wordsで一時的に置き換えた文字を復元する。
   def reverse_exclution_words(gr_str, extra_word_hash)
+    return gr_str unless extra_word_hash
     extra_word_hash.each do |value|
       gr_str.sub!('*', value)
     end
