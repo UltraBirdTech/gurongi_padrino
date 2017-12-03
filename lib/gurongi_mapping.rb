@@ -1,4 +1,3 @@
-# disable:rubocop
 module PadrinoApp
   # yamlファイルからマッピングデータを読み込む
   class MappingTable
