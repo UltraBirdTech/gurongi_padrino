@@ -1,38 +1,48 @@
-# rubocop:disable all 
+# グロンギ語に変換するメソッド
 module GurongiTranslate
   ###########################
   # 翻訳メソッド
   # 日本語の文字列を受け取り、グロンギ語の文字列を返却する
-  # 引数: ja_str (日本語の文字列)
-  # 返値: gr_str (グロンギ語の文字列)
-  def translate_ja_to_gr (ja_str)
+  # @params ja_str (日本語の文字列)
+  # @return gr_str (グロンギ語の文字列)
+  def translate_ja_to_gr(ja_str)
     logger.debug "[LOG]: start translate #{ja_str}"
-    
-    # '*'は特別な意味を持つためreturnする
-    if ja_str.match('\*')
-      logger.warn "[LOG]: include '*' in ja string."
-      return 'ここではリントの言葉を話せ'
-    end
-    
-    ja_str_extra_word, extra_word_array = exclution_words(ja_str.to_kana())
-
-    gr_str = ''
     begin
-      gr_str = translate_ja_str(ja_str_extra_word)
-    rescue => e
-      logger.debug "[WARNING]: Can't change ja to gr. Error string is #{ja_str}." 
+      gr_str = translate!(ja_str)
+    rescue StandardError => e
+      logger.debug can_not_change_str_message(ja_str)
       return 'ここではリントの言葉を話せ'
-    end
-
-    if extra_word_array
-      gr_str = reverse_exclution_words(gr_str, extra_word_array)
     end
 
     logger.debug "[LOG]: end translate #{gr_str}"
     gr_str
   end
 
+  # rubocop:disable all 
   private
+
+  def translate!(ja_str)
+    check_special_chars(ja_str)
+    ja_str_extra_word, extra_word_array = exclution_words(ja_str.to_kana)
+    gr_str = translate_ja_str(ja_str_extra_word)
+    if extra_word_array
+      gr_str = reverse_exclution_words(gr_str, extra_word_array)
+    end
+    gr_str
+  end
+
+  # '*'は特別な意味を持つためreturnする
+  def check_special_chars(ja_str)
+    if ja_str.match('\*')
+      logger.warn "[LOG]: include '*' in ja string."
+      raise StandardError
+    end
+  end
+
+  def can_not_change_str_message(ja_str)
+    "[WARNING]: Can't change ja to gr. Error string is #{ja_str}."
+  end
+
   ##########################
   # 日本語文字列をグロンギ語文字列に変換するメソッド
   def translate_ja_str(ja_str_extra_word)
