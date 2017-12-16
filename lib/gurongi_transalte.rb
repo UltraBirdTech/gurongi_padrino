@@ -1,5 +1,6 @@
 # グロンギ語に変換するメソッド
 module GurongiTranslate
+  # rubocop:enable all
   ###########################
   # 翻訳メソッド
   # 日本語の文字列を受け取り、グロンギ語の文字列を返却する
@@ -9,7 +10,7 @@ module GurongiTranslate
     logger.debug "[LOG]: start translate #{ja_str}"
     begin
       gr_str = translate!(ja_str)
-    rescue StandardError => e
+    rescue StandardError
       logger.debug can_not_change_str_message(ja_str)
       return 'ここではリントの言葉を話せ'
     end
@@ -95,6 +96,7 @@ module GurongiTranslate
   # 除外単語を復元するメソッド
   # excluetion_wordsで一時的に置き換えた文字を復元する。
   def reverse_exclution_words(gr_str, extra_word_hash)
+    return gr_str unless extra_word_hash
     extra_word_hash.each do |value|
       gr_str.sub!('*', value)
     end
