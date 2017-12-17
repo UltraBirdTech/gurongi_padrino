@@ -29,11 +29,11 @@ RSpec.describe String do
     end
 
     context '異常系' do
-      xit '「*」のみの場合' do
+      it '「*」のみの場合' do
         expect(gurongi.translate_ja_to_gr('*')).to eq 'ここではリントの言葉を話せ'
       end
 
-      xit '「*」が文字列に含まれている場合' do
+      it '「*」が文字列に含まれている場合' do
         expect(gurongi.translate_ja_to_gr('ほげ*もげ')).to eq 'ここではリントの言葉を話せ'
       end
 

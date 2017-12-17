@@ -19,7 +19,6 @@ module GurongiTranslate
     gr_str
   end
 
-  # rubocop:disable all 
   private
 
   def translate!(ja_str)
@@ -32,17 +31,18 @@ module GurongiTranslate
     gr_str
   end
 
-  # '*'は特別な意味を持つためreturnする
+  # '*'は特別な意味を持つためStandardErrorにする
   def check_special_chars(ja_str)
-    if ja_str.match('\*')
-      logger.warn "[LOG]: include '*' in ja string."
-      raise StandardError
-    end
+    return unless ja_str =~ /\*/
+    logger.warn "[LOG]: include '*' in ja string."
+    raise StandardError
   end
 
   def can_not_change_str_message(ja_str)
     "[WARNING]: Can't change ja to gr. Error string is #{ja_str}."
   end
+
+  # rubocop:disable all 
 
   ##########################
   # 日本語文字列をグロンギ語文字列に変換するメソッド
