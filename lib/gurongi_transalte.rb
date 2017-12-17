@@ -33,7 +33,7 @@ module GurongiTranslate
 
   # '*'は特別な意味を持つためStandardErrorにする
   def check_special_chars(ja_str)
-    return unless ja_str =~ /\\\*/
+    return unless ja_str =~ /\*/
     logger.warn "[LOG]: include '*' in ja string."
     raise StandardError
   end
