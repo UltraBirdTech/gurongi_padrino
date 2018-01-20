@@ -42,28 +42,40 @@ module GurongiTranslate
     "[WARNING]: Can't change ja to gr. Error string is #{ja_str}."
   end
 
-  # rubocop:disable all 
-
   ##########################
   # 日本語文字列をグロンギ語文字列に変換するメソッド
   def translate_ja_str(ja_str_extra_word)
     gr_str = ''
     ja_str_extra_word.each_char.with_index do |c, i|
       case c
-      when '*'
-       gr_str << '*' # *を追加する
       when 'ャ', 'ュ', 'ョ', 'ァ', 'ィ', 'ェ', 'ォ'
-        gr_str[-1] = translate_small_chars(ja_str_extra_word, i ,c)
-      when 'ー'
-        gr_str << gr_str[-1] # 前の文字を重ねる
-      when 'ッ'
-        gr_str << ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
+        gr_str[-1] = translate_small_chars(ja_str_extra_word, i, c)
       else
-        gr_str << c.to_gr!
+        gr_str << translate_other(gr_str, c, ja_str_extra_word, i)
       end
     end
     gr_str
   end
+
+  # TODO: rename method name
+  def translate_other(gr_str, char, ja_str_extra_word, i)
+    case char
+    when 'ー'
+      gr_str[-1] # 前の文字を重ねる
+    when 'ッ'
+      # ここの変換が気持ち悪い。元の日本語文字列とインデックスが必要？
+      ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
+    else
+      translate_normal_char(char)
+    end
+  end
+
+  def translate_normal_char(char)
+    return '*' if char =~ /\*/ # * の場合は*を返却
+    char.to_gr!
+  end
+
+  # rubocop:disable all 
 
   ##########################
   # 小文字の変換を行うメソッド
