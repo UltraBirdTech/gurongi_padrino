@@ -1,6 +1,5 @@
 # グロンギ語に変換するメソッド
 module GurongiTranslate
-  # rubocop:enable all
   ###########################
   # 翻訳メソッド
   # 日本語の文字列を受け取り、グロンギ語の文字列を返却する
@@ -75,8 +74,6 @@ module GurongiTranslate
     char.to_gr!
   end
 
-  # rubocop:disable all 
-
   ##########################
   # 小文字の変換を行うメソッド
   # 一文字前の文字を含めて再変換する
@@ -87,6 +84,8 @@ module GurongiTranslate
   def translate_small_chars(ja_str_extra_word, i, c)
     (ja_str_extra_word[i - 1] + c).to_gr!
   end
+
+  # rubocop:disable all 
 
   ##########################
   # 除外単語変換メソッド
