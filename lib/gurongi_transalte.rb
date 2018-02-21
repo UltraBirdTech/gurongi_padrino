@@ -41,6 +41,7 @@ module GurongiTranslate
     "[WARNING]: Can't change ja to gr. Error string is #{ja_str}. #{e}"
   end
 
+  # rubocop:disable Metrics/MethodLength
   ##########################
   # 日本語文字列をグロンギ語文字列に変換するメソッド
   def translate_ja_str(ja_str_extra_word)
@@ -54,11 +55,12 @@ module GurongiTranslate
       when 'ッ'
         gr_str << ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
       else
-        gr_str << (c =~ /\*/ ? c : c.to_gr! )
+        gr_str << (c =~ /\*/ ? c : c.to_gr!)
       end
     end
     gr_str
   end
+  # rubocop:enable Metrics/MethodLength
 
   ##########################
   # 小文字の変換を行うメソッド
