@@ -73,8 +73,6 @@ module GurongiTranslate
     (ja_str_extra_word[i - 1] + c).to_gr!
   end
 
-  # rubocop:disable all 
-
   ##########################
   # 除外単語変換メソッド
   # FILTER_WORDSに存在する単語を一時的に'*'に置き換える。
@@ -91,6 +89,7 @@ module GurongiTranslate
     [ja_str, extra_word_array]
   end
 
+  # rubocop:disable all 
   ##########################
   # 除外単語を復元するメソッド
   # excluetion_wordsで一時的に置き換えた文字を復元する。
