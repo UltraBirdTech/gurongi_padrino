@@ -9,8 +9,8 @@ module GurongiTranslate
     logger.debug "[LOG]: start translate #{ja_str}"
     begin
       gr_str = translate!(ja_str)
-    rescue StandardError
-      logger.debug can_not_change_str_message(ja_str)
+    rescue StandardError => e
+      logger.debug can_not_change_str_message(ja_str, e)
       return 'ここではリントの言葉を話せ'
     end
 
@@ -37,8 +37,8 @@ module GurongiTranslate
     raise StandardError
   end
 
-  def can_not_change_str_message(ja_str)
-    "[WARNING]: Can't change ja to gr. Error string is #{ja_str}."
+  def can_not_change_str_message(ja_str, e)
+    "[WARNING]: Can't change ja to gr. Error string is #{ja_str}. #{e}"
   end
 
   ##########################
@@ -54,8 +54,7 @@ module GurongiTranslate
       when 'ッ'
         gr_str << ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
       else
-        return '*' if char =~ /\*/ # * の場合は*を返却
-        gr_str << char.to_gr!
+        gr_str << (c =~ /\*/ ? c : c.to_gr! )
       end
     end
     gr_str
