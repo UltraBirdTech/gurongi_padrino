@@ -9,8 +9,8 @@ module GurongiTranslate
     logger.debug "[LOG]: start translate #{ja_str}"
     begin
       gr_str = translate!(ja_str)
-    rescue StandardError
-      logger.debug can_not_change_str_message(ja_str)
+    rescue StandardError => e
+      logger.debug can_not_change_str_message(ja_str, e)
       return 'ここではリントの言葉を話せ'
     end
 
@@ -37,10 +37,11 @@ module GurongiTranslate
     raise StandardError
   end
 
-  def can_not_change_str_message(ja_str)
-    "[WARNING]: Can't change ja to gr. Error string is #{ja_str}."
+  def can_not_change_str_message(ja_str, e)
+    "[WARNING]: Can't change ja to gr. Error string is #{ja_str}. #{e}"
   end
 
+  # rubocop:disable Metrics/MethodLength
   ##########################
   # 日本語文字列をグロンギ語文字列に変換するメソッド
   def translate_ja_str(ja_str_extra_word)
@@ -49,30 +50,17 @@ module GurongiTranslate
       case c
       when 'ャ', 'ュ', 'ョ', 'ァ', 'ィ', 'ェ', 'ォ'
         gr_str[-1] = translate_small_chars(ja_str_extra_word, i, c)
+      when 'ー'
+        gr_str << gr_str[-1] # 前の文字を重ねる
+      when 'ッ'
+        gr_str << ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
       else
-        gr_str << translate_other(gr_str, c, ja_str_extra_word, i)
+        gr_str << (c =~ /\*/ ? c : c.to_gr!)
       end
     end
     gr_str
   end
-
-  # TODO: rename method name
-  def translate_other(gr_str, char, ja_str_extra_word, i)
-    case char
-    when 'ー'
-      gr_str[-1] # 前の文字を重ねる
-    when 'ッ'
-      # ここの変換が気持ち悪い。元の日本語文字列とインデックスが必要？
-      ja_str_extra_word[i + 1].to_gr! # 後の文字を重ねる
-    else
-      translate_normal_char(char)
-    end
-  end
-
-  def translate_normal_char(char)
-    return '*' if char =~ /\*/ # * の場合は*を返却
-    char.to_gr!
-  end
+  # rubocop:enable Metrics/MethodLength
 
   ##########################
   # 小文字の変換を行うメソッド
