@@ -89,7 +89,6 @@ module GurongiTranslate
     [ja_str, extra_word_array]
   end
 
-  # rubocop:disable all 
   ##########################
   # 除外単語を復元するメソッド
   # excluetion_wordsで一時的に置き換えた文字を復元する。
