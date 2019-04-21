@@ -8,12 +8,12 @@
 ### 2. cd 
 `cd ./gurongi_padrino`
 
-3. sqlite3
+### 3. sqlite3
 `brew install sqlite3`
 or 
 `apt-get install libsqlte3-dev`
 
-3. bundle install
+### 4. bundle install
 `bundle install`
 
 ## start
