@@ -17,10 +17,10 @@ or
 `bundle install`
 
 ## start
-1. start up command
+### 1. start up command
 `bundle exec padrino start`
 
-2. connect to URL
+### 2. connect to URL
 127.0.0.1:3000/translate
 
 ## stop
