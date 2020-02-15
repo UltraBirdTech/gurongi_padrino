@@ -133,7 +133,7 @@ DEPENDENCIES
   haml
   padrino (= 0.13.0)
   rack-test
-  rake
+  rake (>= 1.6.12)
   rspec
   sass
   shoulda
