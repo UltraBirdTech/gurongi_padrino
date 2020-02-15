@@ -14,7 +14,7 @@ source 'https://rubygems.org'
 # gem 'oj'
 
 # Project requirements
-gem 'rake'
+gem 'rake', '>= 1.6.12'
 gem "unicorn"
 gem 'rspec'
 # Component requirements
