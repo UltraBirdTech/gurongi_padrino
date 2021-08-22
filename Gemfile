@@ -20,7 +20,7 @@ gem 'rspec'
 # Component requirements
 gem 'sass'
 gem 'haml'
-gem 'activerecord', '>= 4.2.7.1', :require => 'active_record'
+gem 'activerecord', '>= 6.0.3.5', :require => 'active_record'
 gem 'activesupport', '>= 5.2.4.3'
 gem 'sqlite3'
 gem 'simplecov', '~> 0.8.0'
